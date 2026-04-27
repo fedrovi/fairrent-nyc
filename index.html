@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- ── SEO ── -->
+<title>FairRent NYC — Don't Overpay Your NYC Rent</title>
+<meta name="description" content="Check if your NYC apartment is fairly priced before signing your lease. Instant rent fairness report for 87+ neighborhoods." />
+<meta name="keywords" content="NYC rent check, New York apartment pricing, fair rent NYC, rent calculator NYC, is my rent too high, NYC housing" />
+<meta name="author" content="FairRent NYC" />
+<link rel="canonical" href="https://fairrentnyc.com/" />
+
+<!-- ── Open Graph ── -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://fairrentnyc.com/" />
+<meta property="og:title" content="FairRent NYC — Don't Overpay Your NYC Rent" />
+<meta property="og:description" content="Instant rent fairness report for 87+ NYC neighborhoods. Know before you sign." />
+<meta property="og:image" content="https://fairrentnyc.com/og-image.png" />
+
+<!-- ── Twitter Card ── -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="FairRent NYC — Don't Overpay Your NYC Rent" />
+<meta name="twitter:description" content="Instant rent fairness report for 87+ NYC neighborhoods. Know before you sign." />
+<meta name="twitter:image" content="https://fairrentnyc.com/og-image.png" />
+
+<!-- ── Favicon (inline SVG as data URI) ── -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231a6641'/><text y='22' x='6' font-size='18' font-family='serif'>F</text></svg>" />
+
+<!-- ── Fonts ── -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #faf8f4;
+    --white: #ffffff;
+    --ink: #0f0e0c;
+    --ink-light: #4a4740;
+    --ink-muted: #8a8580;
+    --green: #1a6641;
+    --green-light: #e8f4ed;
+    --yellow: #c8830a;
+    --yellow-light: #fef3e2;
+    --orange: #c0430a;
+    --orange-light: #fdeee8;
+    --red: #a8180a;
+    --red-light: #fce8e6;
+    --border: #e8e4dd;
+    --shadow-sm: 0 1px 3px rgba(15,14,12,0.06), 0 1px 2px rgba(15,14,12,0.04);
+    --shadow-md: 0 4px 16px rgba(15,14,12,0.08), 0 2px 6px rgba(15,14,12,0.05);
+    --shadow-lg: 0 12px 40px rgba(15,14,12,0.1), 0 4px 12px rgba(15,14,12,0.06);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-dot {
+    width: 10px; height: 10px;
+    background: var(--green);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 17px;
+    letter-spacing: -0.2px;
+    color: var(--ink);
+  }
+  .logo-text span { color: var(--green); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 56px 24px 40px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 7vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--green);
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--ink-light);
+    font-weight: 400;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  /* ── FORM CARD ── */
+  .form-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 32px;
+  }
+  @media (max-width: 480px) { .card { padding: 24px 20px; } }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 560px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field.full { grid-column: 1 / -1; }
+
+  label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+    color: var(--ink);
+  }
+  label .optional {
+    font-weight: 400;
+    color: var(--ink-muted);
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  select, input[type="number"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 48px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    outline: none;
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238a8580' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+  select:focus, input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(26,102,65,0.1);
+    background: var(--white);
+  }
+  select:hover, input:hover { border-color: #c8c3bb; }
+
+  .amenities-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .amenities-label .optional {
+    font-weight: 400;
+    color: var(--ink-muted);
+    font-size: 12px;
+    margin-left: 4px;
+  }
+  .amenities-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .amenity-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
+    background: var(--cream);
+  }
+  .amenity-chip:hover { border-color: var(--green); color: var(--green); }
+  .amenity-chip.selected {
+    border-color: var(--green);
+    background: var(--green-light);
+    color: var(--green);
+  }
+  .amenity-chip input { display: none; }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
+    grid-column: 1 / -1;
+  }
+
+  .cta-btn {
+    width: 100%;
+    height: 54px;
+    background: var(--ink);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.1px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .cta-btn:hover { background: #2a2825; box-shadow: var(--shadow-md); }
+  .cta-btn:active { transform: scale(0.99); }
+
+  .error-msg {
+    display: none;
+    background: #fce8e6;
+    border: 1px solid #f4c0bb;
+    border-radius: var(--radius-sm);
+    color: var(--red);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 12px 16px;
+    margin-top: 12px;
+  }
+  .error-msg.visible { display: flex; align-items: center; gap: 8px; }
+
+  /* ── RESULTS ── */
+  .results {
+    display: none;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .results.visible { display: block; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .result-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+
+  .result-header {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 480px) { .result-header { padding: 20px; } }
+
+  .verdict-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    margin-bottom: 8px;
+  }
+  .verdict-badge.good    { background: var(--green-light);  color: var(--green); }
+  .verdict-badge.fair    { background: var(--yellow-light); color: var(--yellow); }
+  .verdict-badge.slight  { background: var(--orange-light); color: var(--orange); }
+  .verdict-badge.over    { background: var(--red-light);    color: var(--red); }
+  .verdict-badge::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .result-location {
+    font-size: 14px;
+    color: var(--ink-muted);
+    font-weight: 400;
+  }
+
+  .score-block { text-align: right; flex-shrink: 0; }
+  .score-ring { width: 72px; height: 72px; position: relative; margin-left: auto; }
+  .score-ring svg { width: 72px; height: 72px; transform: rotate(-90deg); }
+  .score-ring circle { fill: none; stroke-width: 5; stroke-linecap: round; }
+  .score-ring .track { stroke: var(--border); }
+  .score-ring .fill { stroke: var(--green); transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1); }
+  .score-number {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px; line-height: 1; color: var(--ink);
+  }
+  .score-number small { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--ink-muted); font-weight: 500; }
+  .score-label { font-size: 11px; font-weight: 600; letter-spacing: 0.3px; color: var(--ink-muted); text-transform: uppercase; margin-top: 6px; text-align: center; }
+
+  .result-body {
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 480px) { .result-body { padding: 20px; grid-template-columns: 1fr; gap: 16px; } }
+
+  .stat-label { font-size: 12px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; color: var(--ink-muted); margin-bottom: 4px; }
+  .stat-value { font-family: 'DM Serif Display', serif; font-size: 26px; letter-spacing: -0.5px; color: var(--ink); line-height: 1.15; }
+  .stat-value.green { color: var(--green); }
+  .stat-value.yellow { color: var(--yellow); }
+  .stat-value.orange { color: var(--orange); }
+  .stat-value.red { color: var(--red); }
+  .stat-sub { font-size: 13px; color: var(--ink-muted); margin-top: 2px; }
+
+  .result-footer {
+    padding: 20px 32px 24px;
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+  }
+  @media (max-width: 480px) { .result-footer { padding: 16px 20px 20px; } }
+
+  .explanation { font-size: 14px; color: var(--ink-light); line-height: 1.6; }
+  .explanation strong { color: var(--ink); font-weight: 600; }
+
+  .negotiation-tip {
+    margin-top: 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--yellow-light);
+    border: 1px solid #f0d89a;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 13.5px;
+    color: #7a5000;
+    line-height: 1.5;
+  }
+  .negotiation-tip.hidden { display: none; }
+  .negotiation-tip .tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+  .reset-btn {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin-top: 20px; width: 100%; height: 46px;
+    border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--white); font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 500; color: var(--ink-light);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .reset-btn:hover { border-color: var(--ink); color: var(--ink); box-shadow: var(--shadow-sm); }
+
+  /* ── DISCLAIMER ── */
+  .disclaimer {
+    max-width: 720px; margin: 0 auto;
+    padding: 0 24px 40px;
+    text-align: center;
+    font-size: 12.5px; color: var(--ink-muted); line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 12px; color: var(--ink-muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-dot"></div>
+    <div class="logo-text">FairRent <span>NYC</span></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-badge">Free Rent Analysis</div>
+  <h1>Don't overpay your<br><em>NYC rent.</em></h1>
+  <p class="hero-sub">Check if your apartment is fairly priced before signing your lease.</p>
+</section>
+
+<div class="form-wrap">
+  <div class="card">
+    <div class="form-grid">
+
+      <div class="field">
+        <label for="neighborhood">Neighborhood</label>
+        <select id="neighborhood" aria-label="Select neighborhood">
+          <option value="">Select neighborhood…</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="apt-type">Apartment Type</label>
+        <select id="apt-type" aria-label="Select apartment type">
+          <option value="">Select type…</option>
+          <option value="Studio">Studio</option>
+          <option value="1 Bedroom">1 Bedroom</option>
+          <option value="2 Bedroom">2 Bedroom</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="rent">Monthly Rent (USD)</label>
+        <input type="number" id="rent" placeholder="e.g. 3500" min="1" aria-label="Monthly rent in USD" />
+      </div>
+
+      <div class="field">
+        <label for="sqft">Size <span class="optional">optional</span></label>
+        <input type="number" id="sqft" placeholder="e.g. 650 sqft" min="1" aria-label="Square footage (optional)" />
+      </div>
+
+      <div class="field full">
+        <div class="divider"></div>
+        <span class="amenities-label">Amenities <span class="optional">optional</span></span>
+        <div class="amenities-grid" role="group" aria-label="Select amenities">
+          <label class="amenity-chip"><input type="checkbox" value="doorman"> 🏢 Doorman</label>
+          <label class="amenity-chip"><input type="checkbox" value="gym"> 🏋️ Gym</label>
+          <label class="amenity-chip"><input type="checkbox" value="rooftop"> 🌇 Rooftop</label>
+          <label class="amenity-chip"><input type="checkbox" value="laundry"> 🧺 In-unit Laundry</label>
+          <label class="amenity-chip"><input type="checkbox" value="dishwasher"> 🍽️ Dishwasher</label>
+          <label class="amenity-chip"><input type="checkbox" value="outdoor"> 🌿 Outdoor Space</label>
+          <label class="amenity-chip"><input type="checkbox" value="parking"> 🚗 Parking</label>
+          <label class="amenity-chip"><input type="checkbox" value="pet"> 🐾 Pet Friendly</label>
+          <label class="amenity-chip"><input type="checkbox" value="elevator"> 🛗 Elevator</label>
+        </div>
+      </div>
+
+    </div>
+
+    <button class="cta-btn" id="check-btn" aria-label="Check my rent">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Check my rent
+    </button>
+    <div class="error-msg" id="error-msg" role="alert" aria-live="polite">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span id="error-text"></span>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="results" aria-live="polite">
+  <div class="result-card">
+    <div class="result-header">
+      <div>
+        <div class="verdict-badge" id="verdict-badge" role="status">—</div>
+        <div class="result-location" id="result-location"></div>
+      </div>
+      <div class="score-block">
+        <div class="score-ring" aria-label="RentCheck Score">
+          <svg viewBox="0 0 72 72">
+            <circle class="track" cx="36" cy="36" r="30"/>
+            <circle class="fill" id="score-arc" cx="36" cy="36" r="30"
+              stroke-dasharray="188.5" stroke-dashoffset="188.5"/>
+          </svg>
+          <div class="score-number">
+            <span id="score-num">0</span>
+            <small>/100</small>
+          </div>
+        </div>
+        <div class="score-label">FairRent Score</div>
+      </div>
+    </div>
+
+    <div class="result-body">
+      <div class="stat-item">
+        <div class="stat-label">Listed Rent</div>
+        <div class="stat-value" id="res-listed">—</div>
+        <div class="stat-sub">per month</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Fair Range</div>
+        <div class="stat-value" id="res-range">—</div>
+        <div class="stat-sub">estimated benchmark</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Avg Market Rent</div>
+        <div class="stat-value" id="res-avg">—</div>
+        <div class="stat-sub">for this area &amp; type</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">Difference</div>
+        <div class="stat-value" id="res-diff">—</div>
+        <div class="stat-sub">vs. market average</div>
+      </div>
+    </div>
+
+    <div class="result-footer">
+      <p class="explanation" id="explanation"></p>
+      <div class="negotiation-tip hidden" id="negotiation-tip">
+        <span class="tip-icon" aria-hidden="true">💬</span>
+        <span id="negotiation-text"></span>
+      </div>
+    </div>
+  </div>
+
+  <button class="reset-btn" id="reset-btn" aria-label="Start over">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+    Start over
+  </button>
+</div>
+
+<p class="disclaimer">
+  ⚠️ This is an informational estimate based on neighborhood benchmarks. It is not legal, brokerage, or financial advice.
+</p>
+
+<footer>
+  © 2025 FairRent NYC &nbsp;·&nbsp; For informational use only
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── DATA ──────────────────────────────────────────────────────────────────
+  const DATA = [
+    {area:"Williamsburg",beds:"Studio",avg:3500},{area:"Williamsburg",beds:"1 Bedroom",avg:4400},{area:"Williamsburg",beds:"2 Bedroom",avg:5500},
+    {area:"Greenpoint",beds:"Studio",avg:3300},{area:"Greenpoint",beds:"1 Bedroom",avg:4200},{area:"Greenpoint",beds:"2 Bedroom",avg:5300},
+    {area:"Bushwick",beds:"Studio",avg:2600},{area:"Bushwick",beds:"1 Bedroom",avg:3200},{area:"Bushwick",beds:"2 Bedroom",avg:4000},
+    {area:"Bed-Stuy",beds:"Studio",avg:2400},{area:"Bed-Stuy",beds:"1 Bedroom",avg:3000},{area:"Bed-Stuy",beds:"2 Bedroom",avg:3800},
+    {area:"DUMBO",beds:"Studio",avg:3800},{area:"DUMBO",beds:"1 Bedroom",avg:5000},{area:"DUMBO",beds:"2 Bedroom",avg:6500},
+    {area:"Downtown Brooklyn",beds:"Studio",avg:3200},{area:"Downtown Brooklyn",beds:"1 Bedroom",avg:4200},{area:"Downtown Brooklyn",beds:"2 Bedroom",avg:5500},
+    {area:"Park Slope",beds:"Studio",avg:3000},{area:"Park Slope",beds:"1 Bedroom",avg:3800},{area:"Park Slope",beds:"2 Bedroom",avg:5000},
+    {area:"Prospect Heights",beds:"Studio",avg:2900},{area:"Prospect Heights",beds:"1 Bedroom",avg:3700},{area:"Prospect Heights",beds:"2 Bedroom",avg:4800},
+    {area:"Fort Greene",beds:"Studio",avg:3000},{area:"Fort Greene",beds:"1 Bedroom",avg:3900},{area:"Fort Greene",beds:"2 Bedroom",avg:5100},
+    {area:"Carroll Gardens",beds:"Studio",avg:3100},{area:"Carroll Gardens",beds:"1 Bedroom",avg:4000},{area:"Carroll Gardens",beds:"2 Bedroom",avg:5200},
+    {area:"Cobble Hill",beds:"Studio",avg:3200},{area:"Cobble Hill",beds:"1 Bedroom",avg:4100},{area:"Cobble Hill",beds:"2 Bedroom",avg:5400},
+    {area:"Red Hook",beds:"Studio",avg:2600},{area:"Red Hook",beds:"1 Bedroom",avg:3200},{area:"Red Hook",beds:"2 Bedroom",avg:4000},
+    {area:"Long Island City",beds:"Studio",avg:3300},{area:"Long Island City",beds:"1 Bedroom",avg:4200},{area:"Long Island City",beds:"2 Bedroom",avg:5500},
+    {area:"Astoria",beds:"Studio",avg:2500},{area:"Astoria",beds:"1 Bedroom",avg:3100},{area:"Astoria",beds:"2 Bedroom",avg:4000},
+    {area:"Sunnyside",beds:"Studio",avg:2300},{area:"Sunnyside",beds:"1 Bedroom",avg:2900},{area:"Sunnyside",beds:"2 Bedroom",avg:3600},
+    {area:"Jackson Heights",beds:"Studio",avg:2200},{area:"Jackson Heights",beds:"1 Bedroom",avg:2800},{area:"Jackson Heights",beds:"2 Bedroom",avg:3500},
+    {area:"Flushing",beds:"Studio",avg:2100},{area:"Flushing",beds:"1 Bedroom",avg:2700},{area:"Flushing",beds:"2 Bedroom",avg:3400},
+    {area:"Upper East Side",beds:"Studio",avg:2800},{area:"Upper East Side",beds:"1 Bedroom",avg:3500},{area:"Upper East Side",beds:"2 Bedroom",avg:4800},
+    {area:"Upper West Side",beds:"Studio",avg:3000},{area:"Upper West Side",beds:"1 Bedroom",avg:3900},{area:"Upper West Side",beds:"2 Bedroom",avg:5200},
+    {area:"Harlem",beds:"Studio",avg:2300},{area:"Harlem",beds:"1 Bedroom",avg:2900},{area:"Harlem",beds:"2 Bedroom",avg:3700},
+    {area:"East Harlem",beds:"Studio",avg:2200},{area:"East Harlem",beds:"1 Bedroom",avg:2800},{area:"East Harlem",beds:"2 Bedroom",avg:3500},
+    {area:"Midtown East",beds:"Studio",avg:3200},{area:"Midtown East",beds:"1 Bedroom",avg:4200},{area:"Midtown East",beds:"2 Bedroom",avg:5800},
+    {area:"Midtown West",beds:"Studio",avg:3300},{area:"Midtown West",beds:"1 Bedroom",avg:4300},{area:"Midtown West",beds:"2 Bedroom",avg:6000},
+    {area:"Hell's Kitchen",beds:"Studio",avg:3100},{area:"Hell's Kitchen",beds:"1 Bedroom",avg:4100},{area:"Hell's Kitchen",beds:"2 Bedroom",avg:5500},
+    {area:"Chelsea",beds:"Studio",avg:3500},{area:"Chelsea",beds:"1 Bedroom",avg:4700},{area:"Chelsea",beds:"2 Bedroom",avg:6500},
+    {area:"Flatiron",beds:"Studio",avg:3600},{area:"Flatiron",beds:"1 Bedroom",avg:4800},{area:"Flatiron",beds:"2 Bedroom",avg:6800},
+    {area:"Gramercy",beds:"Studio",avg:3400},{area:"Gramercy",beds:"1 Bedroom",avg:4500},{area:"Gramercy",beds:"2 Bedroom",avg:6200},
+    {area:"Union Square",beds:"Studio",avg:3500},{area:"Union Square",beds:"1 Bedroom",avg:4700},{area:"Union Square",beds:"2 Bedroom",avg:6500},
+    {area:"East Village",beds:"Studio",avg:3200},{area:"East Village",beds:"1 Bedroom",avg:4100},{area:"East Village",beds:"2 Bedroom",avg:5200},
+    {area:"West Village",beds:"Studio",avg:3800},{area:"West Village",beds:"1 Bedroom",avg:5200},{area:"West Village",beds:"2 Bedroom",avg:7000},
+    {area:"SoHo",beds:"Studio",avg:4000},{area:"SoHo",beds:"1 Bedroom",avg:5500},{area:"SoHo",beds:"2 Bedroom",avg:7500},
+    {area:"NoHo",beds:"Studio",avg:3900},{area:"NoHo",beds:"1 Bedroom",avg:5300},{area:"NoHo",beds:"2 Bedroom",avg:7200},
+    {area:"Tribeca",beds:"Studio",avg:4200},{area:"Tribeca",beds:"1 Bedroom",avg:5800},{area:"Tribeca",beds:"2 Bedroom",avg:8000},
+    {area:"Financial District",beds:"Studio",avg:3100},{area:"Financial District",beds:"1 Bedroom",avg:4000},{area:"Financial District",beds:"2 Bedroom",avg:5500},
+    {area:"Battery Park City",beds:"Studio",avg:3300},{area:"Battery Park City",beds:"1 Bedroom",avg:4300},{area:"Battery Park City",beds:"2 Bedroom",avg:6000},
+    {area:"Lower East Side",beds:"Studio",avg:3000},{area:"Lower East Side",beds:"1 Bedroom",avg:3900},{area:"Lower East Side",beds:"2 Bedroom",avg:5000},
+    {area:"Chinatown",beds:"Studio",avg:2600},{area:"Chinatown",beds:"1 Bedroom",avg:3200},{area:"Chinatown",beds:"2 Bedroom",avg:4200},
+    {area:"Washington Heights",beds:"Studio",avg:2000},{area:"Washington Heights",beds:"1 Bedroom",avg:2600},{area:"Washington Heights",beds:"2 Bedroom",avg:3300},
+    {area:"Inwood",beds:"Studio",avg:1900},{area:"Inwood",beds:"1 Bedroom",avg:2500},{area:"Inwood",beds:"2 Bedroom",avg:3200},
+    {area:"Crown Heights",beds:"Studio",avg:2600},{area:"Crown Heights",beds:"1 Bedroom",avg:3300},{area:"Crown Heights",beds:"2 Bedroom",avg:4200},
+    {area:"Flatbush",beds:"Studio",avg:2300},{area:"Flatbush",beds:"1 Bedroom",avg:2900},{area:"Flatbush",beds:"2 Bedroom",avg:3600},
+    {area:"Ridgewood",beds:"Studio",avg:2500},{area:"Ridgewood",beds:"1 Bedroom",avg:3100},{area:"Ridgewood",beds:"2 Bedroom",avg:3900},
+    {area:"Forest Hills",beds:"Studio",avg:2600},{area:"Forest Hills",beds:"1 Bedroom",avg:3200},{area:"Forest Hills",beds:"2 Bedroom",avg:4000},
+    {area:"Rego Park",beds:"Studio",avg:2700},{area:"Rego Park",beds:"1 Bedroom",avg:3300},{area:"Rego Park",beds:"2 Bedroom",avg:4200},
+    {area:"Boerum Hill",beds:"Studio",avg:3200},{area:"Boerum Hill",beds:"1 Bedroom",avg:4100},{area:"Boerum Hill",beds:"2 Bedroom",avg:5400},
+    {area:"Gowanus",beds:"Studio",avg:3000},{area:"Gowanus",beds:"1 Bedroom",avg:3800},{area:"Gowanus",beds:"2 Bedroom",avg:5000},
+    {area:"Clinton Hill",beds:"Studio",avg:2900},{area:"Clinton Hill",beds:"1 Bedroom",avg:3700},{area:"Clinton Hill",beds:"2 Bedroom",avg:4800},
+    {area:"Sunset Park",beds:"Studio",avg:2200},{area:"Sunset Park",beds:"1 Bedroom",avg:2800},{area:"Sunset Park",beds:"2 Bedroom",avg:3500},
+    {area:"Bay Ridge",beds:"Studio",avg:2100},{area:"Bay Ridge",beds:"1 Bedroom",avg:2700},{area:"Bay Ridge",beds:"2 Bedroom",avg:3400},
+    {area:"Bensonhurst",beds:"Studio",avg:2000},{area:"Bensonhurst",beds:"1 Bedroom",avg:2500},{area:"Bensonhurst",beds:"2 Bedroom",avg:3200},
+    {area:"Sheepshead Bay",beds:"Studio",avg:2100},{area:"Sheepshead Bay",beds:"1 Bedroom",avg:2600},{area:"Sheepshead Bay",beds:"2 Bedroom",avg:3300},
+    {area:"Brighton Beach",beds:"Studio",avg:2200},{area:"Brighton Beach",beds:"1 Bedroom",avg:2700},{area:"Brighton Beach",beds:"2 Bedroom",avg:3400},
+    {area:"Canarsie",beds:"Studio",avg:1900},{area:"Canarsie",beds:"1 Bedroom",avg:2400},{area:"Canarsie",beds:"2 Bedroom",avg:3100},
+    {area:"East New York",beds:"Studio",avg:1800},{area:"East New York",beds:"1 Bedroom",avg:2300},{area:"East New York",beds:"2 Bedroom",avg:3000},
+    {area:"Brownsville",beds:"Studio",avg:1700},{area:"Brownsville",beds:"1 Bedroom",avg:2200},{area:"Brownsville",beds:"2 Bedroom",avg:2900},
+    {area:"Jamaica Queens",beds:"Studio",avg:2100},{area:"Jamaica Queens",beds:"1 Bedroom",avg:2700},{area:"Jamaica Queens",beds:"2 Bedroom",avg:3400},
+    {area:"Richmond Hill",beds:"Studio",avg:2000},{area:"Richmond Hill",beds:"1 Bedroom",avg:2600},{area:"Richmond Hill",beds:"2 Bedroom",avg:3300},
+    {area:"South Ozone Park",beds:"Studio",avg:2100},{area:"South Ozone Park",beds:"1 Bedroom",avg:2700},{area:"South Ozone Park",beds:"2 Bedroom",avg:3400},
+    {area:"Elmhurst",beds:"Studio",avg:2400},{area:"Elmhurst",beds:"1 Bedroom",avg:3000},{area:"Elmhurst",beds:"2 Bedroom",avg:3800},
+    {area:"Corona Queens",beds:"Studio",avg:2300},{area:"Corona Queens",beds:"1 Bedroom",avg:2900},{area:"Corona Queens",beds:"2 Bedroom",avg:3600},
+    {area:"Kew Gardens",beds:"Studio",avg:2500},{area:"Kew Gardens",beds:"1 Bedroom",avg:3100},{area:"Kew Gardens",beds:"2 Bedroom",avg:3900},
+    {area:"Woodside",beds:"Studio",avg:2400},{area:"Woodside",beds:"1 Bedroom",avg:3000},{area:"Woodside",beds:"2 Bedroom",avg:3800},
+    {area:"College Point",beds:"Studio",avg:2200},{area:"College Point",beds:"1 Bedroom",avg:2800},{area:"College Point",beds:"2 Bedroom",avg:3500},
+    {area:"Whitestone",beds:"Studio",avg:2300},{area:"Whitestone",beds:"1 Bedroom",avg:2900},{area:"Whitestone",beds:"2 Bedroom",avg:3600},
+    {area:"Bronx Riverdale",beds:"Studio",avg:2000},{area:"Bronx Riverdale",beds:"1 Bedroom",avg:2600},{area:"Bronx Riverdale",beds:"2 Bedroom",avg:3300},
+    {area:"Fordham",beds:"Studio",avg:1800},{area:"Fordham",beds:"1 Bedroom",avg:2300},{area:"Fordham",beds:"2 Bedroom",avg:3000},
+    {area:"Mott Haven",beds:"Studio",avg:2400},{area:"Mott Haven",beds:"1 Bedroom",avg:3000},{area:"Mott Haven",beds:"2 Bedroom",avg:3800},
+    {area:"Melrose Bronx",beds:"Studio",avg:2100},{area:"Melrose Bronx",beds:"1 Bedroom",avg:2700},{area:"Melrose Bronx",beds:"2 Bedroom",avg:3400},
+    {area:"Concourse Bronx",beds:"Studio",avg:2000},{area:"Concourse Bronx",beds:"1 Bedroom",avg:2600},{area:"Concourse Bronx",beds:"2 Bedroom",avg:3300},
+    {area:"Kingsbridge",beds:"Studio",avg:1900},{area:"Kingsbridge",beds:"1 Bedroom",avg:2400},{area:"Kingsbridge",beds:"2 Bedroom",avg:3100},
+    {area:"Spuyten Duyvil",beds:"Studio",avg:2200},{area:"Spuyten Duyvil",beds:"1 Bedroom",avg:2800},{area:"Spuyten Duyvil",beds:"2 Bedroom",avg:3600},
+    {area:"Marble Hill",beds:"Studio",avg:2000},{area:"Marble Hill",beds:"1 Bedroom",avg:2600},{area:"Marble Hill",beds:"2 Bedroom",avg:3300},
+    {area:"Hudson Yards",beds:"Studio",avg:4200},{area:"Hudson Yards",beds:"1 Bedroom",avg:5600},{area:"Hudson Yards",beds:"2 Bedroom",avg:7500},
+    {area:"NoMad",beds:"Studio",avg:3700},{area:"NoMad",beds:"1 Bedroom",avg:5000},{area:"NoMad",beds:"2 Bedroom",avg:6800},
+    {area:"Kips Bay",beds:"Studio",avg:3100},{area:"Kips Bay",beds:"1 Bedroom",avg:4100},{area:"Kips Bay",beds:"2 Bedroom",avg:5600},
+    {area:"Roosevelt Island",beds:"Studio",avg:2800},{area:"Roosevelt Island",beds:"1 Bedroom",avg:3600},{area:"Roosevelt Island",beds:"2 Bedroom",avg:4800},
+    {area:"Two Bridges",beds:"Studio",avg:3000},{area:"Two Bridges",beds:"1 Bedroom",avg:3900},{area:"Two Bridges",beds:"2 Bedroom",avg:5000},
+    {area:"Alphabet City",beds:"Studio",avg:3100},{area:"Alphabet City",beds:"1 Bedroom",avg:4000},{area:"Alphabet City",beds:"2 Bedroom",avg:5100},
+    {area:"Little Italy",beds:"Studio",avg:3300},{area:"Little Italy",beds:"1 Bedroom",avg:4300},{area:"Little Italy",beds:"2 Bedroom",avg:5600},
+    {area:"Civic Center",beds:"Studio",avg:3500},{area:"Civic Center",beds:"1 Bedroom",avg:4600},{area:"Civic Center",beds:"2 Bedroom",avg:6200},
+  ];
+
+  // ── INIT DROPDOWN ─────────────────────────────────────────────────────────
+  const neighborhoodSelect = document.getElementById('neighborhood');
+  [...new Set(DATA.map(d => d.area))].sort().forEach(n => {
+    const o = document.createElement('option');
+    o.value = n; o.textContent = n;
+    neighborhoodSelect.appendChild(o);
+  });
+
+  // ── AMENITY CHIPS ─────────────────────────────────────────────────────────
+  document.querySelectorAll('.amenity-chip').forEach(chip => {
+    chip.addEventListener('click', () => chip.classList.toggle('selected'));
+  });
+
+  // ── HELPERS ───────────────────────────────────────────────────────────────
+  const fmt = n => '$' + Math.round(n).toLocaleString();
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    document.getElementById('error-text').textContent = msg;
+    el.classList.add('visible');
+  }
+  function clearError() {
+    document.getElementById('error-msg').classList.remove('visible');
+  }
+
+  function animateScore(score) {
+    const arc = document.getElementById('score-arc');
+    const numEl = document.getElementById('score-num');
+    const circum = 188.5;
+    const color = score >= 75 ? '#1a6641' : score >= 55 ? '#c8830a' : score >= 40 ? '#c0430a' : '#a8180a';
+    arc.style.stroke = color;
+    setTimeout(() => { arc.style.strokeDashoffset = circum - (score / 100) * circum; }, 50);
+    let cur = 0;
+    const step = Math.ceil(score / 40);
+    const timer = setInterval(() => {
+      cur = Math.min(cur + step, score);
+      numEl.textContent = cur;
+      if (cur >= score) clearInterval(timer);
+    }, 25);
+  }
+
+  // ── CHECK HANDLER ─────────────────────────────────────────────────────────
+  document.getElementById('check-btn').addEventListener('click', () => {
+    clearError();
+    const neighborhood = document.getElementById('neighborhood').value;
+    const aptType      = document.getElementById('apt-type').value;
+    const rent         = parseFloat(document.getElementById('rent').value);
+    const sqft         = parseFloat(document.getElementById('sqft').value) || null;
+
+    if (!neighborhood) return showError('Please select a neighborhood.');
+    if (!aptType)      return showError('Please select an apartment type.');
+    if (!rent || isNaN(rent) || rent <= 0) return showError('Please enter a valid monthly rent greater than $0.');
+
+    const match = DATA.find(d => d.area === neighborhood && d.beds === aptType);
+    if (!match) return showError(`No benchmark found for "${aptType}" in ${neighborhood}. Try a different combination.`);
+
+    const avgRent     = match.avg;
+    const minFair     = avgRent * 0.9;
+    const maxFair     = avgRent * 1.1;
+    const diff        = (rent - avgRent) / avgRent;
+    const score       = Math.max(0, Math.min(100, Math.round(85 - diff * 200)));
+    const negotiation = diff > 0.05 ? Math.round((rent - avgRent) * 0.6) : 0;
+
+    let verdict, verdictClass, verdictEmoji;
+    if      (diff > 0.15)  { verdict = 'Overpriced';          verdictClass = 'over';   verdictEmoji = '🔴'; }
+    else if (diff > 0.05)  { verdict = 'Slightly overpriced'; verdictClass = 'slight'; verdictEmoji = '🟠'; }
+    else if (diff < -0.08) { verdict = 'Good deal';           verdictClass = 'good';   verdictEmoji = '🟢'; }
+    else                   { verdict = 'Fair price';           verdictClass = 'fair';   verdictEmoji = '🟡'; }
+
+    const diffPct   = (diff * 100).toFixed(1);
+    const diffSign  = diff >= 0 ? '+' : '';
+    const diffColor = diff > 0.05 ? (diff > 0.15 ? 'red' : 'orange') : (diff < -0.08 ? 'green' : 'yellow');
+
+    document.getElementById('verdict-badge').className   = `verdict-badge ${verdictClass}`;
+    document.getElementById('verdict-badge').textContent = `${verdictEmoji} ${verdict}`;
+    document.getElementById('result-location').textContent = `${aptType} in ${neighborhood}`;
+    document.getElementById('res-listed').textContent = fmt(rent) + '/mo';
+    document.getElementById('res-range').textContent  = `${fmt(minFair)} – ${fmt(maxFair)}`;
+    document.getElementById('res-avg').className      = `stat-value ${diffColor}`;
+    document.getElementById('res-avg').textContent    = fmt(avgRent) + '/mo';
+    document.getElementById('res-diff').className     = `stat-value ${diffColor}`;
+    document.getElementById('res-diff').textContent   = `${diffSign}${diffPct}%`;
+
+    let explain = `Based on similar <strong>${aptType.toLowerCase()} apartments in ${neighborhood}</strong>, the average market rent is <strong>${fmt(avgRent)}/month</strong>. `;
+    if      (diff > 0.15)  explain += `At ${fmt(rent)}/mo, this listing is significantly above the neighborhood benchmark — you may have real room to negotiate.`;
+    else if (diff > 0.05)  explain += `This listing is slightly above market. Consider negotiating or asking for a longer lease in exchange for a lower rate.`;
+    else if (diff < -0.08) explain += `This listing is priced below market average — that's a solid deal for ${neighborhood}.`;
+    else                   explain += `This listing is competitively priced and falls within the expected range for the area.`;
+    if (sqft) explain += ` At ${sqft.toLocaleString()} sqft, your price per sqft is <strong>$${(rent / sqft).toFixed(2)}</strong>.`;
+    document.getElementById('explanation').innerHTML = explain;
+
+    const tipEl = document.getElementById('negotiation-tip');
+    if (negotiation > 0) {
+      document.getElementById('negotiation-text').innerHTML =
+        `<strong>Suggested negotiation:</strong> Try asking for a <strong>${fmt(negotiation)}/month reduction</strong>. Lead with comparable listings in the neighborhood and offer a longer lease term as leverage.`;
+      tipEl.classList.remove('hidden');
+    } else {
+      tipEl.classList.add('hidden');
+    }
+
+    const resultsEl = document.getElementById('results');
+    resultsEl.classList.add('visible');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    document.getElementById('score-arc').style.strokeDashoffset = '188.5';
+    document.getElementById('score-num').textContent = '0';
+    setTimeout(() => animateScore(score), 200);
+  });
+
+  // ── RESET HANDLER ─────────────────────────────────────────────────────────
+  document.getElementById('reset-btn').addEventListener('click', () => {
+    ['neighborhood','apt-type','rent','sqft'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.querySelectorAll('.amenity-chip').forEach(c => c.classList.remove('selected'));
+    document.getElementById('results').classList.remove('visible');
+    clearError();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+})();
+</script>
+</body>
+</html>
