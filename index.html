@@ -654,8 +654,13 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 const SUPABASE_URL      = 'https://rerekppvurkidrqghvsi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlcmVrcHB2dXJraWRycWdodnNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0MTQxNTgsImV4cCI6MjA5Mjk5MDE1OH0.SY4b4FgK1wBi6Z-3fQCkYydSwgsOJgO4TmVt3QwrRvw';
 
-const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabaseClient = null;
+if (window.supabase) {
+  const { createClient } = window.supabase;
+  supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} else {
+  console.warn('[FairRent] Supabase CDN not loaded — leads will not be saved.');
+}
 
 // ══════════════════════════════════════════════════════════════════════════
 //  TOAST HELPER
@@ -697,6 +702,10 @@ function showToast(msg, isError = false) {
 //  CREATE POLICY "anon insert" ON leads FOR INSERT TO anon WITH CHECK (true);
 // ══════════════════════════════════════════════════════════════════════════
 async function submitLeadData(d) {
+  if (!supabaseClient) {
+    console.warn('[FairRent] Skipping Supabase insert — client not initialized.');
+    return;
+  }
   const { error } = await supabaseClient
     .from('leads')
     .insert([{
