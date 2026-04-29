@@ -703,8 +703,8 @@ async function submitLeadData(d) {
       neighborhood:   d.neighborhood,
       apartment_type: d.apartmentType,
       rent:           d.listedRent,
-      sqft:           d.sqft,           // null if not provided
-      amenities:      d.amenities,      // text[] — Supabase handles JS arrays natively
+      sqft:           d.sqft,                          // null if not provided
+      amenities:      d.amenities.join(', '),           // convert array → "gym, doorman"
       score:          d.fairRentScore,
       verdict:        d.verdict,
       min_rent:       d.fairRangeMin,
@@ -713,8 +713,7 @@ async function submitLeadData(d) {
     }]);
 
   if (error) {
-    // Log for debugging; do NOT block the user — error is caught in handleReveal
-    console.error('[FairRent] Supabase insert error:', error.message);
+    console.error('[FairRent] Supabase insert error:', error.message, error.details, error.hint);
     throw error;
   }
 }
@@ -805,15 +804,16 @@ const DATA = [
     {area:"Civic Center",beds:"Studio",avg:3500},{area:"Civic Center",beds:"1 Bedroom",avg:4600},{area:"Civic Center",beds:"2 Bedroom",avg:6200},
   ];
 
-  /* ════════════════════════════════════════════════════════════════════════
-     STATE — holds the computed result between step 1 and step 2
-  ════════════════════════════════════════════════════════════════════════ */
+/* ════════════════════════════════════════════════════════════════════════
+   DOM INIT — wrapped in DOMContentLoaded so the script (type="module",
+   in <head>) never runs before elements exist in the document.
+════════════════════════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ── STATE — holds computed result between step 1 and step 2 ── */
   let pendingResult = null;
 
-  /* ════════════════════════════════════════════════════════════════════════
-     INIT
-  ════════════════════════════════════════════════════════════════════════ */
-  // Populate neighborhood dropdown
+  /* ── INIT: populate neighborhood dropdown ── */
   const neighborhoodSel = document.getElementById('neighborhood');
   [...new Set(DATA.map(d => d.area))].sort().forEach(name => {
     const o = document.createElement('option');
@@ -1083,6 +1083,8 @@ const DATA = [
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+}); // end DOMContentLoaded
 
 </script>
 </body>
