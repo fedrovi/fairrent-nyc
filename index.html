@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+ 
 <title>FairRent NYC — Don't Overpay Your NYC Rent</title>
 <meta name="description" content="Check if your NYC apartment is fairly priced before signing your lease. Instant rent fairness report for 87+ neighborhoods." />
 <meta name="keywords" content="NYC rent check, New York apartment pricing, fair rent NYC, rent calculator NYC, is my rent too high, NYC housing" />
 <meta name="author" content="FairRent NYC" />
 <link rel="canonical" href="https://fairrentnyc.com/" />
-
+ 
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://fairrentnyc.com/" />
 <meta property="og:title" content="FairRent NYC — Don't Overpay Your NYC Rent" />
@@ -19,21 +19,21 @@
 <meta name="twitter:title" content="FairRent NYC — Don't Overpay Your NYC Rent" />
 <meta name="twitter:description" content="Instant rent fairness report for 87+ NYC neighborhoods. Know before you sign." />
 <meta name="twitter:image" content="https://fairrentnyc.com/og-image.png" />
-
+ 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231a6641'/><text y='23' x='7' font-size='19' font-family='Georgia,serif' fill='white'>F</text></svg>" />
-
+ 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-
+ 
 <!-- Supabase JS client (ESM via CDN — loaded as module in the script below) -->
-
+ 
 <style>
 /* ─────────────────────────────────────────────────────────────────────────────
    RESET & TOKENS
 ───────────────────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
 :root {
   --canvas:      #f5f3ef;
   --surface:     #ffffff;
@@ -43,36 +43,36 @@
   --ink-400:     #908c85;
   --ink-200:     #e2ddd6;
   --ink-100:     #f0ede8;
-
+ 
   --green-700:   #145234;
   --green-500:   #1d7a4c;
   --green-100:   #e6f4ec;
   --green-50:    #f2faf5;
-
+ 
   --amber-700:   #a36200;
   --amber-100:   #fef0d0;
-
+ 
   --orange-700:  #b83d08;
   --orange-100:  #fde8dc;
-
+ 
   --red-700:     #9b1309;
   --red-100:     #fce5e3;
-
+ 
   --shadow-xs:  0 1px 2px rgba(17,16,9,.04);
   --shadow-sm:  0 2px 8px rgba(17,16,9,.07), 0 1px 2px rgba(17,16,9,.04);
   --shadow-md:  0 6px 24px rgba(17,16,9,.09), 0 2px 6px rgba(17,16,9,.05);
   --shadow-lg:  0 16px 48px rgba(17,16,9,.11), 0 4px 12px rgba(17,16,9,.06);
   --glow-green: 0 0 0 3px rgba(29,122,76,.15);
-
+ 
   --r-sm: 8px;
   --r-md: 14px;
   --r-lg: 20px;
   --r-xl: 28px;
-
+ 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-body:    'Instrument Sans', system-ui, sans-serif;
 }
-
+ 
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-body);
@@ -83,7 +83,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    HEADER
 ───────────────────────────────────────────────────────────────────────────── */
@@ -107,7 +107,7 @@ body {
 .logo-name { font-family: var(--font-display); font-size: 18px; font-weight: 700; color: var(--ink-900); letter-spacing: -0.3px; }
 .logo-name em { font-style: normal; color: var(--green-500); }
 .header-pill { font-size: 11.5px; font-weight: 600; letter-spacing: 0.3px; color: var(--green-700); background: var(--green-100); padding: 4px 10px; border-radius: 100px; white-space: nowrap; }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    HERO
 ───────────────────────────────────────────────────────────────────────────── */
@@ -126,7 +126,7 @@ body {
 .hero-trust { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
 .trust-item { display: flex; align-items: center; gap: 5px; font-size: 12.5px; color: var(--ink-400); font-weight: 500; }
 .trust-item svg { flex-shrink: 0; color: var(--green-500); }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    FORM CARD
 ───────────────────────────────────────────────────────────────────────────── */
@@ -137,15 +137,15 @@ body {
 .form-card-head p { font-size: 13.5px; color: var(--ink-400); }
 .form-card-body { padding: 28px 32px 32px; }
 @media (max-width:520px) { .form-card-head{padding:22px 20px 18px} .form-card-body{padding:20px 20px 24px} }
-
+ 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 @media (max-width:540px) { .form-grid{grid-template-columns:1fr;gap:14px} }
-
+ 
 .field { display: flex; flex-direction: column; gap: 7px; }
 .field.full { grid-column: 1 / -1; }
 .field-label { font-size: 12.5px; font-weight: 600; color: var(--ink-600); letter-spacing: 0.1px; display: flex; align-items: center; gap: 6px; }
 .badge-opt { font-weight: 400; font-size: 11px; color: var(--ink-400); background: var(--ink-100); padding: 1px 7px; border-radius: 100px; }
-
+ 
 select, input[type="number"], input[type="email"] {
   appearance: none; -webkit-appearance: none;
   width: 100%; height: 50px;
@@ -158,7 +158,7 @@ select { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.or
 select:focus, input:focus { border-color:var(--green-500); box-shadow:var(--glow-green); background:var(--surface); }
 select:hover:not(:focus), input:hover:not(:focus) { border-color:#c0bbb4; background:var(--surface); }
 input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px rgba(155,19,9,.12)!important; }
-
+ 
 .amenity-section-label { font-size:12.5px; font-weight:600; color:var(--ink-600); display:flex; align-items:center; gap:6px; margin-bottom:11px; }
 .amenity-chips { display:flex; flex-wrap:wrap; gap:7px; }
 .chip { display:inline-flex; align-items:center; gap:5px; padding:6px 12px; border:1.5px solid var(--ink-200); border-radius:100px; font-family:var(--font-body); font-size:12.5px; font-weight:500; color:var(--ink-600); cursor:pointer; user-select:none; transition:all .15s; background:var(--canvas); }
@@ -167,28 +167,28 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .chip input { display:none; }
 .chip-icon { font-size:13px; }
 .form-divider { height:1px; background:var(--ink-100); margin:22px 0; grid-column:1/-1; }
-
+ 
 .cta-wrap { margin-top:10px; }
 .btn-check { width:100%; height:56px; border:none; border-radius:var(--r-md); background:var(--ink-900); color:#fff; font-family:var(--font-body); font-size:16px; font-weight:600; letter-spacing:-0.1px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:9px; transition:background .15s,box-shadow .15s,transform .1s; position:relative; overflow:hidden; }
 .btn-check::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,transparent 60%); pointer-events:none; }
 .btn-check:hover { background:#272521; box-shadow:var(--shadow-md); }
 .btn-check:active { transform:scale(.987); }
-
+ 
 .error-box { display:none; align-items:center; gap:9px; background:var(--red-100); border:1px solid #f5c5c2; border-radius:var(--r-sm); color:var(--red-700); font-size:13.5px; font-weight:500; padding:12px 15px; margin-top:12px; }
 .error-box.show { display:flex; }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    EMAIL GATE
 ───────────────────────────────────────────────────────────────────────────── */
 .email-gate-section { display:none; max-width:780px; margin:0 auto; padding:0 24px 100px; }
 .email-gate-section.show { display:block; animation:fadeUp .4s cubic-bezier(.16,1,.3,1) both; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
-
+ 
 .email-gate-card { background:var(--surface); border:1px solid var(--ink-200); border-radius:var(--r-xl); box-shadow:var(--shadow-lg); overflow:hidden; }
 .email-gate-bar { height:4px; background:linear-gradient(90deg,var(--green-700) 0%,var(--green-500) 100%); }
 .email-gate-body { padding:40px 40px 36px; }
 @media (max-width:520px) { .email-gate-body{padding:28px 24px 28px} }
-
+ 
 /* Blurred preview */
 .report-preview { background:var(--canvas); border:1px solid var(--ink-200); border-radius:var(--r-md); padding:20px; margin-bottom:32px; position:relative; overflow:hidden; }
 .report-preview-inner { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; filter:blur(5px); user-select:none; pointer-events:none; opacity:.65; }
@@ -198,51 +198,51 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .preview-cell-val.g { color:var(--green-700); }
 .preview-cell-val.r { color:var(--red-700); }
 .preview-cell-val.a { color:var(--amber-700); }
-
+ 
 .report-preview-lock { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:7px; background:rgba(245,243,239,.6); backdrop-filter:blur(1px); }
 .lock-icon { width:38px; height:38px; background:var(--surface); border:1px solid var(--ink-200); border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-sm); font-size:16px; }
 .lock-label { font-size:12.5px; font-weight:600; color:var(--ink-600); }
-
+ 
 /* Email CTA */
 .gate-headline { font-family:var(--font-display); font-size:clamp(22px,4.5vw,28px); font-weight:800; color:var(--ink-900); letter-spacing:-.8px; line-height:1.15; margin-bottom:8px; }
 .gate-subline { font-size:14.5px; color:var(--ink-600); line-height:1.55; margin-bottom:24px; }
-
+ 
 .email-input-row { display:flex; gap:10px; align-items:flex-start; }
 @media (max-width:500px) { .email-input-row{flex-direction:column} }
 .email-field-wrap { flex:1; display:flex; flex-direction:column; gap:6px; }
-
+ 
 .btn-reveal { height:50px; padding:0 24px; border:none; border-radius:var(--r-sm); background:var(--green-700); color:#fff; font-family:var(--font-body); font-size:15px; font-weight:600; white-space:nowrap; cursor:pointer; display:flex; align-items:center; gap:8px; transition:background .15s,box-shadow .15s,transform .1s; flex-shrink:0; }
 .btn-reveal:hover { background:var(--green-500); box-shadow:var(--shadow-md); }
 .btn-reveal:active { transform:scale(.987); }
 .btn-reveal.loading { pointer-events:none; opacity:.75; }
 @media (max-width:500px) { .btn-reveal{width:100%;justify-content:center} }
-
+ 
 .btn-spinner { display:none; width:15px; height:15px; border:2px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .6s linear infinite; }
 @keyframes spin { to{transform:rotate(360deg)} }
 .btn-reveal.loading .btn-spinner { display:block; }
 .btn-reveal.loading .btn-reveal-text,
 .btn-reveal.loading .btn-reveal-icon { display:none; }
-
+ 
 .email-error { font-size:12.5px; font-weight:500; color:var(--red-700); display:none; }
 .email-error.show { display:block; }
-
+ 
 .gate-trust { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:18px; padding-top:16px; border-top:1px solid var(--ink-100); }
 .gate-trust-item { display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--ink-400); font-weight:500; }
 .gate-trust-item svg { color:var(--green-500); flex-shrink:0; }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    RESULTS
 ───────────────────────────────────────────────────────────────────────────── */
 .results-section { display:none; max-width:780px; margin:0 auto; padding:0 24px 100px; }
 .results-section.show { display:block; animation:fadeUp .45s cubic-bezier(.16,1,.3,1) both; }
-
+ 
 .result-banner { border-radius:var(--r-xl) var(--r-xl) 0 0; padding:28px 32px 26px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; border:1px solid transparent; border-bottom:none; }
 .result-banner.good   { background:var(--green-100); border-color:#b8dfc8; }
 .result-banner.fair   { background:var(--amber-100); border-color:#f0d58a; }
 .result-banner.slight { background:var(--orange-100); border-color:#f4c0a0; }
 .result-banner.over   { background:var(--red-100); border-color:#f5c5c2; }
 @media (max-width:480px) { .result-banner{padding:20px} }
-
+ 
 .verdict-label { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; opacity:.65; }
 .verdict-value { font-family:var(--font-display); font-size:clamp(22px,5vw,30px); font-weight:800; letter-spacing:-.8px; line-height:1.1; }
 .result-banner.good   .verdict-value, .result-banner.good   .verdict-label { color:var(--green-700); }
@@ -250,7 +250,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .result-banner.slight .verdict-value, .result-banner.slight .verdict-label { color:var(--orange-700); }
 .result-banner.over   .verdict-value, .result-banner.over   .verdict-label { color:var(--red-700); }
 .verdict-context { font-size:13.5px; margin-top:5px; opacity:.75; font-weight:500; }
-
+ 
 .score-gauge { display:flex; flex-direction:column; align-items:center; gap:5px; flex-shrink:0; }
 .gauge-ring { width:84px; height:84px; position:relative; }
 .gauge-ring svg { width:84px; height:84px; transform:rotate(-90deg); }
@@ -261,7 +261,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .gauge-num { font-family:var(--font-display); font-size:26px; font-weight:800; line-height:1; letter-spacing:-1px; }
 .gauge-denom { font-size:10.5px; font-weight:600; opacity:.5; letter-spacing:.3px; }
 .gauge-label { font-size:10.5px; font-weight:700; letter-spacing:.6px; text-transform:uppercase; opacity:.55; text-align:center; }
-
+ 
 .stats-grid { display:grid; grid-template-columns:repeat(2,1fr); border-left:1px solid var(--ink-200); border-right:1px solid var(--ink-200); }
 @media (max-width:480px) { .stats-grid{grid-template-columns:1fr} }
 .stat-cell { padding:22px 28px; border-bottom:1px solid var(--ink-200); border-right:1px solid var(--ink-200); background:var(--surface); }
@@ -275,21 +275,21 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .stat-cell-value.col-orange { color:var(--orange-700); }
 .stat-cell-value.col-red    { color:var(--red-700); }
 .stat-cell-sub { font-size:12.5px; color:var(--ink-400); margin-top:3px; font-weight:500; }
-
+ 
 .negotiation-card { background:var(--surface); border:1px solid var(--ink-200); border-top:none; padding:22px 28px; display:flex; gap:14px; align-items:flex-start; }
 .negotiation-card.hide { display:none; }
 .neg-icon-wrap { width:38px; height:38px; flex-shrink:0; background:#fff8e7; border:1px solid #f0d58a; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:17px; }
 .neg-title { font-size:13px; font-weight:700; color:var(--amber-700); margin-bottom:4px; letter-spacing:.1px; }
 .neg-body { font-size:13.5px; color:var(--ink-600); line-height:1.55; }
 .neg-body strong { color:var(--ink-900); font-weight:600; }
-
+ 
 .explanation-card { background:var(--surface-2); border:1px solid var(--ink-200); border-top:none; border-radius:0 0 var(--r-xl) var(--r-xl); padding:22px 28px 26px; }
 .explanation-text { font-size:14px; color:var(--ink-600); line-height:1.7; }
 .explanation-text strong { color:var(--ink-900); font-weight:600; }
-
+ 
 .btn-reset { display:flex; align-items:center; justify-content:center; gap:7px; width:100%; height:48px; margin-top:16px; border:1.5px solid var(--ink-200); border-radius:var(--r-md); background:var(--surface); font-family:var(--font-body); font-size:14px; font-weight:600; color:var(--ink-600); cursor:pointer; transition:all .15s; box-shadow:var(--shadow-xs); }
 .btn-reset:hover { border-color:var(--ink-900); color:var(--ink-900); box-shadow:var(--shadow-sm); }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    DISCLAIMER + FOOTER
 ───────────────────────────────────────────────────────────────────────────── */
@@ -299,11 +299,11 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .disclaimer-title { font-size:12.5px; font-weight:700; color:var(--ink-600); letter-spacing:.3px; text-transform:uppercase; margin-bottom:5px; }
 .disclaimer-text { font-size:12.5px; color:var(--ink-400); line-height:1.65; }
 .disclaimer-text strong { color:var(--ink-600); font-weight:600; }
-
+ 
 .site-footer { border-top:1px solid var(--ink-200); padding:22px 24px; text-align:center; font-size:12px; color:var(--ink-400); font-weight:500; }
 .site-footer a { color:var(--ink-400); text-decoration:none; }
 .site-footer a:hover { color:var(--ink-600); }
-
+ 
 /* ─────────────────────────────────────────────────────────────────────────────
    SAVE TOAST — subtle confirmation after Supabase insert
 ───────────────────────────────────────────────────────────────────────────── */
@@ -349,7 +349,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 </style>
 </head>
 <body>
-
+ 
 <!-- ── HEADER ── -->
 <header class="site-header">
   <div class="header-inner">
@@ -364,7 +364,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     <span class="header-pill">87+ neighborhoods</span>
   </div>
 </header>
-
+ 
 <!-- ── HERO ── -->
 <section class="hero">
   <div class="hero-eyebrow">
@@ -388,7 +388,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     </span>
   </div>
 </section>
-
+ 
 <!-- ── FORM ── -->
 <section class="form-section" id="form-section" aria-label="Rent check form">
   <div class="form-card">
@@ -398,14 +398,14 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     </div>
     <div class="form-card-body">
       <div class="form-grid">
-
+ 
         <div class="field">
           <label class="field-label" for="neighborhood">Neighborhood</label>
           <select id="neighborhood" aria-required="true">
             <option value="">Select neighborhood…</option>
           </select>
         </div>
-
+ 
         <div class="field">
           <label class="field-label" for="apt-type">Apartment type</label>
           <select id="apt-type" aria-required="true">
@@ -415,19 +415,19 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
             <option value="2 Bedroom">2 Bedroom</option>
           </select>
         </div>
-
+ 
         <div class="field">
           <label class="field-label" for="rent">Monthly rent (USD)</label>
           <input type="number" id="rent" placeholder="e.g. 3,500" min="1" aria-required="true" />
         </div>
-
+ 
         <div class="field">
           <label class="field-label" for="sqft">
             Square footage <span class="badge-opt">optional</span>
           </label>
           <input type="number" id="sqft" placeholder="e.g. 650" min="1" />
         </div>
-
+ 
         <div class="field full">
           <div class="form-divider"></div>
           <div class="amenity-section-label">
@@ -445,9 +445,9 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
             <label class="chip"><input type="checkbox" value="elevator"><span class="chip-icon">🛗</span> Elevator</label>
           </div>
         </div>
-
+ 
       </div>
-
+ 
       <div class="cta-wrap">
         <button class="btn-check" id="check-btn" aria-label="Check my rent">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -461,14 +461,14 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     </div>
   </div>
 </section>
-
+ 
 <!-- ── EMAIL GATE ── -->
 <section class="email-gate-section" id="email-gate" aria-label="Unlock your rent report">
   <div class="email-gate-card">
     <!-- Green accent bar -->
     <div class="email-gate-bar"></div>
     <div class="email-gate-body">
-
+ 
       <!-- Blurred report preview -->
       <div class="report-preview" aria-hidden="true">
         <div class="report-preview-inner">
@@ -502,11 +502,11 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
           <div class="lock-label">Your report is ready</div>
         </div>
       </div>
-
+ 
       <!-- Headline + email input -->
       <div class="gate-headline">Where should we send<br>your rent report?</div>
       <p class="gate-subline">Enter your email to unlock your full FairRent analysis — score, fair range, and negotiation guidance included.</p>
-
+ 
       <div class="email-input-row">
         <div class="email-field-wrap">
           <input
@@ -525,7 +525,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
           <span class="btn-reveal-text">See my report</span>
         </button>
       </div>
-
+ 
       <div class="gate-trust">
         <span class="gate-trust-item">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
@@ -540,14 +540,14 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
           Unsubscribe anytime
         </span>
       </div>
-
+ 
     </div>
   </div>
 </section>
-
+ 
 <!-- ── RESULTS ── -->
 <section class="results-section" id="results" aria-live="polite" aria-label="Rent analysis results">
-
+ 
   <div class="result-banner" id="result-banner">
     <div class="banner-left">
       <div class="verdict-label" id="verdict-label">Verdict</div>
@@ -569,7 +569,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
       <div class="gauge-label">FairRent<br>Score</div>
     </div>
   </div>
-
+ 
   <div class="stats-grid">
     <div class="stat-cell">
       <div class="stat-cell-label"><span class="stat-icon" style="background:#f0ede8">💵</span>Listed rent</div>
@@ -592,7 +592,7 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
       <div class="stat-cell-sub">difference from average</div>
     </div>
   </div>
-
+ 
   <div class="negotiation-card hide" id="neg-card">
     <div class="neg-icon-wrap" aria-hidden="true">💬</div>
     <div class="neg-content">
@@ -600,18 +600,18 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
       <div class="neg-body" id="neg-body"></div>
     </div>
   </div>
-
+ 
   <div class="explanation-card">
     <p class="explanation-text" id="explanation-text"></p>
   </div>
-
+ 
   <button class="btn-reset" id="reset-btn" aria-label="Check another apartment">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
     Check another apartment
   </button>
-
+ 
 </section>
-
+ 
 <!-- ── DISCLAIMER ── -->
 <div class="disclaimer-block">
   <div class="disclaimer-inner">
@@ -626,26 +626,26 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     </div>
   </div>
 </div>
-
+ 
 <!-- ── FOOTER ── -->
 <footer class="site-footer">
   © 2025 FairRent NYC &nbsp;·&nbsp; Informational use only &nbsp;·&nbsp;
   <a href="mailto:hello@fairrentnyc.com">Contact</a>
 </footer>
-
+ 
 <!-- Save confirmation toast -->
 <div class="save-toast" id="save-toast" role="status" aria-live="polite">
   <span class="save-toast-dot"></span>
   <span id="save-toast-msg">Report saved successfully</span>
 </div>
-
+ 
 <!-- ══════════════════════════════════════════════════════════════════════════
   JAVASCRIPT — Supabase CDN loaded as ES module
 ══════════════════════════════════════════════════════════════════════════ -->
 <script type="module">
 // ── Supabase client (CDN ESM) ─────────────────────────────────────────────
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-
+ 
 // ══════════════════════════════════════════════════════════════════════════
 //  ⚙️  CONFIGURATION — replace with your real values
 //  The anon key is safe to expose in frontend code: it is governed by your
@@ -653,9 +653,9 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 // ══════════════════════════════════════════════════════════════════════════
 const SUPABASE_URL      = 'https://rerekppvurkidrqghvsi.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlcmVrcHB2dXJraWRycWdodnNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0MTQxNTgsImV4cCI6MjA5Mjk5MDE1OH0.SY4b4FgK1wBi6Z-3fQCkYydSwgsOJgO4TmVt3QwrRvw';
-
+ 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
+ 
 // ══════════════════════════════════════════════════════════════════════════
 //  TOAST HELPER
 // ══════════════════════════════════════════════════════════════════════════
@@ -669,7 +669,7 @@ function showToast(msg, isError = false) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
 }
-
+ 
 // ══════════════════════════════════════════════════════════════════════════
 //  LEAD SUBMISSION → Supabase `leads` table
 //
@@ -711,13 +711,13 @@ async function submitLeadData(d) {
       max_rent:       d.fairRangeMax,
       negotiation:    d.suggestedNegotiation,
     }]);
-
+ 
   if (error) {
     console.error('[FairRent] Supabase insert error:', error.message, error.details, error.hint);
     throw error;
   }
 }
-
+ 
 /* ════════════════════════════════════════════════════════════════════════
    DATA
 ════════════════════════════════════════════════════════════════════════ */
@@ -803,16 +803,16 @@ const DATA = [
     {area:"Little Italy",beds:"Studio",avg:3300},{area:"Little Italy",beds:"1 Bedroom",avg:4300},{area:"Little Italy",beds:"2 Bedroom",avg:5600},
     {area:"Civic Center",beds:"Studio",avg:3500},{area:"Civic Center",beds:"1 Bedroom",avg:4600},{area:"Civic Center",beds:"2 Bedroom",avg:6200},
   ];
-
+ 
 /* ════════════════════════════════════════════════════════════════════════
    DOM INIT — wrapped in DOMContentLoaded so the script (type="module",
    in <head>) never runs before elements exist in the document.
 ════════════════════════════════════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-
+ 
   /* ── STATE — holds computed result between step 1 and step 2 ── */
   let pendingResult = null;
-
+ 
   /* ── INIT: populate neighborhood dropdown ── */
   const neighborhoodSel = document.getElementById('neighborhood');
   [...new Set(DATA.map(d => d.area))].sort().forEach(name => {
@@ -820,27 +820,27 @@ document.addEventListener('DOMContentLoaded', () => {
     o.value = name; o.textContent = name;
     neighborhoodSel.appendChild(o);
   });
-
+ 
   // Amenity chip toggles
   document.querySelectorAll('.chip').forEach(chip => {
     chip.addEventListener('click', () => chip.classList.toggle('on'));
   });
-
+ 
   /* ════════════════════════════════════════════════════════════════════════
      HELPERS
   ════════════════════════════════════════════════════════════════════════ */
   const fmt = n => '$' + Math.round(n).toLocaleString();
-
+ 
   // RFC 5322-lite — catches 99.9 % of real addresses
   const isValidEmail = email => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
-
+ 
   function showFormError(msg) {
     const box = document.getElementById('error-box');
     document.getElementById('error-text').textContent = msg;
     box.classList.add('show');
   }
   function clearFormError() { document.getElementById('error-box').classList.remove('show'); }
-
+ 
   function showEmailError(msg) {
     const el = document.getElementById('email-error');
     el.textContent = msg;
@@ -851,14 +851,14 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('email-error').classList.remove('show');
     document.getElementById('email-input').classList.remove('input-error');
   }
-
+ 
   function diffToColClass(diff) {
     if (diff > 0.15)  return 'col-red';
     if (diff > 0.05)  return 'col-orange';
     if (diff < -0.08) return 'col-green';
     return 'col-amber';
   }
-
+ 
   function animateGauge(score, verdictClass) {
     const arc    = document.getElementById('gauge-arc');
     const numEl  = document.getElementById('gauge-num');
@@ -874,30 +874,30 @@ document.addEventListener('DOMContentLoaded', () => {
       if (cur >= score) clearInterval(timer);
     }, 22);
   }
-
+ 
   /* ════════════════════════════════════════════════════════════════════════
      STEP 1 — "CHECK MY RENT"
      Validates inputs → runs the calculation → shows the email gate
   ════════════════════════════════════════════════════════════════════════ */
   document.getElementById('check-btn').addEventListener('click', () => {
     clearFormError();
-
+ 
     const neighborhood = document.getElementById('neighborhood').value;
     const aptType      = document.getElementById('apt-type').value;
     const rent         = parseFloat(document.getElementById('rent').value);
     const sqft         = parseFloat(document.getElementById('sqft').value) || null;
     const amenities    = [...document.querySelectorAll('.chip.on input')].map(i => i.value);
-
+ 
     // Validation
     if (!neighborhood) return showFormError('Please select a neighborhood.');
     if (!aptType)      return showFormError('Please select an apartment type.');
     if (!rent || isNaN(rent) || rent <= 0)
       return showFormError('Please enter a valid monthly rent greater than $0.');
-
+ 
     const match = DATA.find(d => d.area === neighborhood && d.beds === aptType);
     if (!match)
       return showFormError(`No benchmark found for "${aptType}" in ${neighborhood}. Try a different combination.`);
-
+ 
     /* ── CORE CALCULATION (logic unchanged) ── */
     const avgRent     = match.avg;
     const minFair     = avgRent * 0.9;
@@ -905,19 +905,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const diff        = (rent - avgRent) / avgRent;
     const score       = Math.max(0, Math.min(100, Math.round(85 - diff * 200)));
     const negotiation = diff > 0.05 ? Math.round((rent - avgRent) * 0.6) : 0;
-
+ 
     let verdict, verdictClass, verdictContext;
     if      (diff > 0.15)  { verdict='Overpriced';          verdictClass='over';   verdictContext='This apartment is priced significantly above market.'; }
     else if (diff > 0.05)  { verdict='Slightly overpriced'; verdictClass='slight'; verdictContext="You're paying above the neighborhood average."; }
     else if (diff < -0.08) { verdict='Good deal';           verdictClass='good';   verdictContext='This listing is priced below the neighborhood average.'; }
     else                   { verdict='Fair price';           verdictClass='fair';   verdictContext='This listing is in line with neighborhood benchmarks.'; }
-
+ 
     const diffPct  = (diff * 100).toFixed(1);
     const diffSign = diff >= 0 ? '+' : '';
-
+ 
     // Stash everything for after the email step
     pendingResult = { neighborhood, aptType, rent, sqft, amenities, avgRent, minFair, maxFair, diff, diffPct, diffSign, score, negotiation, verdict, verdictClass, verdictContext };
-
+ 
     /* ── POPULATE BLURRED PREVIEW ── */
     document.getElementById('preview-score').textContent   = score;
     document.getElementById('preview-verdict').textContent = verdict;
@@ -925,7 +925,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('preview-listed').textContent  = fmt(rent) + '/mo';
     document.getElementById('preview-diff').textContent    = `${diffSign}${diffPct}%`;
     document.getElementById('preview-neg').textContent     = negotiation > 0 ? fmt(negotiation) + '/mo' : 'None';
-
+ 
     /* ── SHOW GATE ── */
     document.getElementById('form-section').style.display = 'none';
     const gate = document.getElementById('email-gate');
@@ -933,7 +933,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gate.scrollIntoView({ behavior: 'smooth', block: 'start' });
     setTimeout(() => document.getElementById('email-input').focus(), 400);
   });
-
+ 
   /* ════════════════════════════════════════════════════════════════════════
      STEP 2 — "SEE MY REPORT"
      Validates email → submits lead → renders results
@@ -942,19 +942,19 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('email-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') handleReveal();
   });
-
+ 
   async function handleReveal() {
     clearEmailError();
     const emailRaw = document.getElementById('email-input').value;
     const email    = emailRaw.trim();
-
+ 
     if (!email)           return showEmailError('Please enter your email address.');
     if (!isValidEmail(email)) return showEmailError('Please enter a valid email (e.g. you@gmail.com).');
     if (!pendingResult)   return; // safety guard
-
+ 
     const btn = document.getElementById('reveal-btn');
     btn.classList.add('loading');
-
+ 
     /* ── BUILD LEAD PAYLOAD ── */
     const r = pendingResult;
     const leadPayload = {
@@ -974,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
       suggestedNegotiation: r.negotiation,
       submittedAt:          new Date().toISOString(),
     };
-
+ 
     let saveOk = false;
     try {
       await submitLeadData(leadPayload);
@@ -985,24 +985,24 @@ document.addEventListener('DOMContentLoaded', () => {
     } finally {
       btn.classList.remove('loading');
     }
-
+ 
     /* ── RENDER RESULTS ── */
     renderResults(r);
-
+ 
     /* ── TRANSITION TO RESULTS ── */
     document.getElementById('email-gate').classList.remove('show');
     document.getElementById('email-gate').style.display = 'none';
-
+ 
     const resultsEl = document.getElementById('results');
     resultsEl.classList.remove('show');
     void resultsEl.offsetWidth; // force reflow for re-animation
     resultsEl.classList.add('show');
     resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
+ 
     document.getElementById('gauge-arc').style.strokeDashoffset = '226.2';
     document.getElementById('gauge-num').textContent = '0';
     setTimeout(() => animateGauge(r.score, r.verdictClass), 250);
-
+ 
     // ── TOAST FEEDBACK (delayed so it doesn't compete with the result animation) ──
     setTimeout(() => {
       if (saveOk) {
@@ -1012,35 +1012,35 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, 900);
   }
-
+ 
   /* ════════════════════════════════════════════════════════════════════════
      RENDER RESULTS
   ════════════════════════════════════════════════════════════════════════ */
   function renderResults(r) {
     const colClass = diffToColClass(r.diff);
-
+ 
     // Banner
     document.getElementById('result-banner').className     = `result-banner ${r.verdictClass}`;
     document.getElementById('verdict-label').textContent   = 'Our verdict';
     document.getElementById('verdict-value').textContent   = r.verdict;
     document.getElementById('verdict-context').textContent = r.verdictContext;
-
+ 
     // Stats cells
     document.getElementById('res-listed').textContent = fmt(r.rent) + '/mo';
     document.getElementById('res-listed').className   = 'stat-cell-value';
-
+ 
     document.getElementById('res-range').textContent  = `${fmt(r.minFair)} – ${fmt(r.maxFair)}`;
     document.getElementById('res-range').className    = 'stat-cell-value';
-
+ 
     const avgEl = document.getElementById('res-avg');
     avgEl.textContent = fmt(r.avgRent) + '/mo';
     avgEl.className   = `stat-cell-value ${colClass}`;
     document.getElementById('res-avg-sub').textContent = `${r.aptType} in ${r.neighborhood}`;
-
+ 
     const diffEl = document.getElementById('res-diff');
     diffEl.textContent = `${r.diffSign}${r.diffPct}%`;
     diffEl.className   = `stat-cell-value ${colClass}`;
-
+ 
     // Negotiation card
     const negCard = document.getElementById('neg-card');
     if (r.negotiation > 0) {
@@ -1050,7 +1050,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       negCard.classList.add('hide');
     }
-
+ 
     // Explanation
     let explain = `Based on similar <strong>${r.aptType.toLowerCase()} apartments in ${r.neighborhood}</strong>, the neighborhood benchmark is <strong>${fmt(r.avgRent)}/month</strong>. `;
     if      (r.diff > 0.15)  explain += `At ${fmt(r.rent)}/mo, this listing is <strong>${r.diffSign}${r.diffPct}%</strong> above the area average — that's a meaningful premium worth questioning before you sign.`;
@@ -1062,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.getElementById('explanation-text').innerHTML = explain;
   }
-
+ 
   /* ════════════════════════════════════════════════════════════════════════
      RESET
   ════════════════════════════════════════════════════════════════════════ */
@@ -1071,21 +1071,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
     document.getElementById('email-input').value = '';
     pendingResult = null;
-
+ 
     clearFormError();
     clearEmailError();
-
+ 
     // Hide gate + results, restore form
     document.getElementById('results').classList.remove('show');
     document.getElementById('email-gate').classList.remove('show');
     document.getElementById('email-gate').style.display   = '';
     document.getElementById('form-section').style.display = '';
-
+ 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-
+ 
 }); // end DOMContentLoaded
-
+ 
 </script>
 </body>
 </html>
