@@ -26,6 +26,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
  
+<!-- Supabase JS client (ESM via CDN — loaded as module in the script below) -->
+ 
 <style>
 /* ─────────────────────────────────────────────────────────────────────────────
    RESET & TOKENS
@@ -301,6 +303,49 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
 .site-footer { border-top:1px solid var(--ink-200); padding:22px 24px; text-align:center; font-size:12px; color:var(--ink-400); font-weight:500; }
 .site-footer a { color:var(--ink-400); text-decoration:none; }
 .site-footer a:hover { color:var(--ink-600); }
+ 
+/* ─────────────────────────────────────────────────────────────────────────────
+   SAVE TOAST — subtle confirmation after Supabase insert
+───────────────────────────────────────────────────────────────────────────── */
+.save-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--ink-900);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 11px 18px;
+  border-radius: 100px;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease, transform .35s cubic-bezier(.16,1,.3,1);
+  white-space: nowrap;
+}
+.save-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.save-toast.error {
+  background: var(--red-700);
+}
+.save-toast-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green-500);
+  flex-shrink: 0;
+}
+.save-toast.error .save-toast-dot {
+  background: #ff9f9a;
+}
 </style>
 </head>
 <body>
@@ -588,82 +633,96 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
   <a href="mailto:hello@fairrentnyc.com">Contact</a>
 </footer>
  
+<!-- Save confirmation toast -->
+<div class="save-toast" id="save-toast" role="status" aria-live="polite">
+  <span class="save-toast-dot"></span>
+  <span id="save-toast-msg">Report saved successfully</span>
+</div>
+ 
 <!-- ══════════════════════════════════════════════════════════════════════════
-  JAVASCRIPT
+  JAVASCRIPT — Supabase CDN loaded as ES module
 ══════════════════════════════════════════════════════════════════════════ -->
-<script>
-(function () {
-  'use strict';
+<script type="module">
+// ── Supabase client (CDN ESM) ─────────────────────────────────────────────
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
  
-  /* ════════════════════════════════════════════════════════════════════════
-     ┌─────────────────────────────────────────────────────────────────────┐
-     │  LEAD SUBMISSION — replace this function body to connect a backend  │
-     └─────────────────────────────────────────────────────────────────────┘
+// ══════════════════════════════════════════════════════════════════════════
+//  ⚙️  CONFIGURATION — replace with your real values
+//  The anon key is safe to expose in frontend code: it is governed by your
+//  Supabase Row Level Security (RLS) policies. Never use the service_role key here.
+// ══════════════════════════════════════════════════════════════════════════
+const SUPABASE_URL      = 'https://rerekppvurkidrqghvsi.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJlcmVrcHB2dXJraWRycWdodnNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc0MTQxNTgsImV4cCI6MjA5Mjk5MDE1OH0.SY4b4FgK1wBi6Z-3fQCkYydSwgsOJgO4TmVt3QwrRvw';
  
-     `resultData` object shape:
-     {
-       email:                string,        // "user@example.com"
-       neighborhood:         string,        // "Williamsburg"
-       apartmentType:        string,        // "1 Bedroom"
-       listedRent:           number,        // 4800
-       sqft:                 number | null, // 650 or null
-       amenities:            string[],      // ["gym", "doorman"] or []
-       fairRentScore:        number,        // 0–100
-       verdict:              string,        // "Slightly overpriced"
-       verdictClass:         string,        // "good"|"fair"|"slight"|"over"
-       marketAverage:        number,        // 4400
-       fairRangeMin:         number,        // 3960
-       fairRangeMax:         number,        // 4840
-       differencePercent:    string,        // "+9.1" or "-5.2"
-       suggestedNegotiation: number,        // 240  (0 = no negotiation)
-       submittedAt:          string,        // ISO 8601 timestamp
-     }
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
  
-     ── HOW TO WIRE UP ───────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════════════════
+//  TOAST HELPER
+// ══════════════════════════════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg, isError = false) {
+  const toast   = document.getElementById('save-toast');
+  const msgEl   = document.getElementById('save-toast-msg');
+  msgEl.textContent = msg;
+  toast.classList.toggle('error', isError);
+  toast.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+}
  
-     FORMSPREE
-       const res = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-         body: JSON.stringify(resultData),
-       });
-       if (!res.ok) throw new Error('Submission failed');
+// ══════════════════════════════════════════════════════════════════════════
+//  LEAD SUBMISSION → Supabase `leads` table
+//
+//  Table schema (run once in Supabase SQL editor):
+//
+//  CREATE TABLE leads (
+//    id              bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+//    email           text NOT NULL,
+//    neighborhood    text,
+//    apartment_type  text,
+//    rent            numeric,
+//    sqft            numeric,
+//    amenities       text[],
+//    score           integer,
+//    verdict         text,
+//    min_rent        numeric,
+//    max_rent        numeric,
+//    negotiation     numeric,
+//    created_at      timestamptz DEFAULT now()
+//  );
+//
+//  -- RLS: allow anonymous inserts only (no reads from frontend)
+//  ALTER TABLE leads ENABLE ROW LEVEL SECURITY;
+//  CREATE POLICY "anon insert" ON leads FOR INSERT TO anon WITH CHECK (true);
+// ══════════════════════════════════════════════════════════════════════════
+async function submitLeadData(d) {
+  const { error } = await supabase
+    .from('leads')
+    .insert([{
+      email:          d.email,
+      neighborhood:   d.neighborhood,
+      apartment_type: d.apartmentType,
+      rent:           d.listedRent,
+      sqft:           d.sqft,           // null if not provided
+      amenities:      d.amenities,      // text[] — Supabase handles JS arrays natively
+      score:          d.fairRentScore,
+      verdict:        d.verdict,
+      min_rent:       d.fairRangeMin,
+      max_rent:       d.fairRangeMax,
+      negotiation:    d.suggestedNegotiation,
+    }]);
  
-     SUPABASE
-       const { error } = await supabaseClient
-         .from('leads')
-         .insert([resultData]);
-       if (error) throw error;
- 
-     CUSTOM API / VERCEL SERVERLESS
-       const res = await fetch('/api/leads', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(resultData),
-       });
-       if (!res.ok) throw new Error('API error');
- 
-     AIRTABLE (via serverless proxy — never expose your API key in frontend)
-       const res = await fetch('/api/airtable-leads', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(resultData),
-       });
-       if (!res.ok) throw new Error('Airtable error');
- 
-     NOTE: If submission fails, the result is still shown to the user.
-     Leads should never be blocked by a backend error.
-  ════════════════════════════════════════════════════════════════════════ */
-  async function submitLeadData(resultData) {
-    // ── PLACEHOLDER — logs to console; swap with your integration above ──
-    console.log('[FairRent] Lead captured:', resultData);
-    await new Promise(resolve => setTimeout(resolve, 500)); // simulate latency
+  if (error) {
+    // Log for debugging; do NOT block the user — error is caught in handleReveal
+    console.error('[FairRent] Supabase insert error:', error.message);
+    throw error;
   }
+}
  
-  /* ════════════════════════════════════════════════════════════════════════
-     DATA
-  ════════════════════════════════════════════════════════════════════════ */
-  const DATA = [
+/* ════════════════════════════════════════════════════════════════════════
+   DATA
+════════════════════════════════════════════════════════════════════════ */
+const DATA = [
     {area:"Williamsburg",beds:"Studio",avg:3500},{area:"Williamsburg",beds:"1 Bedroom",avg:4400},{area:"Williamsburg",beds:"2 Bedroom",avg:5500},
     {area:"Greenpoint",beds:"Studio",avg:3300},{area:"Greenpoint",beds:"1 Bedroom",avg:4200},{area:"Greenpoint",beds:"2 Bedroom",avg:5300},
     {area:"Bushwick",beds:"Studio",avg:2600},{area:"Bushwick",beds:"1 Bedroom",avg:3200},{area:"Bushwick",beds:"2 Bedroom",avg:4000},
@@ -916,11 +975,13 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
       submittedAt:          new Date().toISOString(),
     };
  
+    let saveOk = false;
     try {
       await submitLeadData(leadPayload);
+      saveOk = true;
     } catch (err) {
-      // Never block the user — submission failure is silent to UX
-      console.warn('[FairRent] Lead submission error (result still shown):', err);
+      // Never block the user — failure is non-fatal; toast will notify subtly
+      console.warn('[FairRent] Supabase insert error (result still shown):', err);
     } finally {
       btn.classList.remove('loading');
     }
@@ -941,6 +1002,15 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     document.getElementById('gauge-arc').style.strokeDashoffset = '226.2';
     document.getElementById('gauge-num').textContent = '0';
     setTimeout(() => animateGauge(r.score, r.verdictClass), 250);
+ 
+    // ── TOAST FEEDBACK (delayed so it doesn't compete with the result animation) ──
+    setTimeout(() => {
+      if (saveOk) {
+        showToast('✓ Report saved to your account');
+      } else {
+        showToast('Report ready — save failed, please retry later', true);
+      }
+    }, 900);
   }
  
   /* ════════════════════════════════════════════════════════════════════════
@@ -1014,7 +1084,6 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
  
-})();
 </script>
 </body>
 </html>
