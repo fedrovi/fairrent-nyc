@@ -707,7 +707,7 @@ async function submitLeadData(d) {
     return;
   }
   const { error } = await supabaseClient
-    .from('leads')
+    .from('Leads')
     .insert([{
       email:          d.email,
       neighborhood:   d.neighborhood,
