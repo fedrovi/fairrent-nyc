@@ -29,6 +29,23 @@
 <!-- Supabase JS client (UMD build — works in all browsers, no module bundler needed) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<!--
+  Content-Security-Policy
+  ─────────────────────────────────────────────────────────────────────────────
+  NOTE: If your Vercel deployment has a CSP *response header* (set in vercel.json),
+  that header takes precedence over this meta tag. In that case, update vercel.json:
+
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://*.supabase.co;"
+-->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src  'self' 'unsafe-inline' https://cdn.jsdelivr.net;
+  style-src   'self' 'unsafe-inline' https://fonts.googleapis.com;
+  font-src    https://fonts.gstatic.com;
+  img-src     'self' data:;
+  connect-src 'self' https://*.supabase.co;
+" />
+
 <style>
 /* ─────────────────────────────────────────────────────────────────────────────
    RESET & TOKENS
