@@ -702,30 +702,29 @@ function showToast(msg, isError = false) {
 //  CREATE POLICY "anon insert" ON leads FOR INSERT TO anon WITH CHECK (true);
 // ══════════════════════════════════════════════════════════════════════════
 async function submitLeadData(d) {
+  console.log("🚀 Sending data to Supabase:", d);
   if (!supabaseClient) {
-    console.warn('[FairRent] Skipping Supabase insert — client not initialized.');
+    console.warn("❌ Supabase client not initialized");
     return;
   }
-  const { error } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from('leads')
     .insert([{
       email:          d.email,
       neighborhood:   d.neighborhood,
       apartment_type: d.apartmentType,
       rent:           d.listedRent,
-      sqft:           d.sqft,                          // null if not provided
-      amenities:      d.amenities.join(', '),           // convert array → "gym, doorman"
+      sqft:           d.sqft,
+      amenities:      d.amenities,
       score:          d.fairRentScore,
       verdict:        d.verdict,
       min_rent:       d.fairRangeMin,
       max_rent:       d.fairRangeMax,
       negotiation:    d.suggestedNegotiation,
-    }]);
-
-  if (error) {
-    console.error('[FairRent] Supabase insert error:', error.message, error.details, error.hint);
-    throw error;
-  }
+    }])
+    .select();
+  console.log("✅ Supabase response:", data);
+  console.log("❌ Supabase error:", error);
 }
 
 /* ════════════════════════════════════════════════════════════════════════
