@@ -435,15 +435,15 @@ input.input-error { border-color:var(--red-700)!important; box-shadow:0 0 0 3px 
             Amenities <span class="badge-opt">optional</span>
           </div>
           <div class="amenity-chips" role="group" aria-label="Select amenities">
-            <label class="chip"><input type="checkbox" value="doorman"><span class="chip-icon">🏢</span> Doorman</label>
-            <label class="chip"><input type="checkbox" value="gym"><span class="chip-icon">🏋️</span> Gym</label>
-            <label class="chip"><input type="checkbox" value="rooftop"><span class="chip-icon">🌆</span> Rooftop</label>
-            <label class="chip"><input type="checkbox" value="laundry"><span class="chip-icon">🧺</span> In-unit laundry</label>
-            <label class="chip"><input type="checkbox" value="dishwasher"><span class="chip-icon">🍽️</span> Dishwasher</label>
-            <label class="chip"><input type="checkbox" value="outdoor"><span class="chip-icon">🌿</span> Outdoor space</label>
-            <label class="chip"><input type="checkbox" value="parking"><span class="chip-icon">🚗</span> Parking</label>
-            <label class="chip"><input type="checkbox" value="pet"><span class="chip-icon">🐾</span> Pet friendly</label>
-            <label class="chip"><input type="checkbox" value="elevator"><span class="chip-icon">🛗</span> Elevator</label>
+            <button type="button" class="chip" data-value="doorman"><span class="chip-icon">🏢</span> Doorman</button>
+            <button type="button" class="chip" data-value="gym"><span class="chip-icon">🏋️</span> Gym</button>
+            <button type="button" class="chip" data-value="rooftop"><span class="chip-icon">🌆</span> Rooftop</button>
+            <button type="button" class="chip" data-value="laundry"><span class="chip-icon">🧺</span> In-unit laundry</button>
+            <button type="button" class="chip" data-value="dishwasher"><span class="chip-icon">🍽️</span> Dishwasher</button>
+            <button type="button" class="chip" data-value="outdoor"><span class="chip-icon">🌿</span> Outdoor space</button>
+            <button type="button" class="chip" data-value="parking"><span class="chip-icon">🚗</span> Parking</button>
+            <button type="button" class="chip" data-value="pet"><span class="chip-icon">🐾</span> Pet friendly</button>
+            <button type="button" class="chip" data-value="elevator"><span class="chip-icon">🛗</span> Elevator</button>
           </div>
         </div>
 
@@ -707,7 +707,7 @@ async function submitLeadData(d) {
     return;
   }
   const { error } = await supabaseClient
-    .from('Leads')
+    .from('leads')
     .insert([{
       email:          d.email,
       neighborhood:   d.neighborhood,
@@ -831,9 +831,19 @@ document.addEventListener('DOMContentLoaded', () => {
     neighborhoodSel.appendChild(o);
   });
 
-  // Amenity chip toggles
+  // Amenity chips — use a Set to track selection; buttons avoid double-fire from label/checkbox
+  const selectedAmenities = new Set();
   document.querySelectorAll('.chip').forEach(chip => {
-    chip.addEventListener('click', () => chip.classList.toggle('on'));
+    chip.addEventListener('click', () => {
+      const val = chip.dataset.value;
+      if (selectedAmenities.has(val)) {
+        selectedAmenities.delete(val);
+        chip.classList.remove('on');
+      } else {
+        selectedAmenities.add(val);
+        chip.classList.add('on');
+      }
+    });
   });
 
   /* ════════════════════════════════════════════════════════════════════════
@@ -896,7 +906,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const aptType      = document.getElementById('apt-type').value;
     const rent         = parseFloat(document.getElementById('rent').value);
     const sqft         = parseFloat(document.getElementById('sqft').value) || null;
-    const amenities    = [...document.querySelectorAll('.chip.on input')].map(i => i.value);
+    const amenities    = [...selectedAmenities];
 
     // Validation
     if (!neighborhood) return showFormError('Please select a neighborhood.');
@@ -1078,7 +1088,8 @@ document.addEventListener('DOMContentLoaded', () => {
   ════════════════════════════════════════════════════════════════════════ */
   document.getElementById('reset-btn').addEventListener('click', () => {
     ['neighborhood','apt-type','rent','sqft'].forEach(id => document.getElementById(id).value = '');
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('on'));
+    document.querySelectorAll('.chip').forEach(c => { c.classList.remove('on'); });
+    selectedAmenities.clear();
     document.getElementById('email-input').value = '';
     pendingResult = null;
 
